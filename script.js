@@ -81,6 +81,7 @@ enviarBtn.addEventListener("click", async () => {
   const fecha = document.getElementById("fecha").value;
   const hora = document.getElementById("hora").value;
   const nombre = document.getElementById("nombre").value.trim();
+  const cedula = document.getElementById("cedula").value.trim();
   const celular = document.getElementById("celular").value.trim();
   const instagram = document.getElementById("instagram").value.trim();
   const codigo = document.getElementById("codigo").value.trim();
@@ -90,9 +91,15 @@ enviarBtn.addEventListener("click", async () => {
   confirmacion.classList.add("hidden");
   confirmacion.innerHTML = "";
 
-  if (!nombre || !celular || !fecha || !hora) {
+  if (!nombre || !cedula || !celular || !fecha || !hora) {
     mensaje.style.color = "#ff4a4a";
     mensaje.textContent = "Completa todos los campos obligatorios.";
+    return;
+  }
+
+  if (!/^[0-9]{10}$/.test(cedula)) {
+    mensaje.style.color = "#ff4a4a";
+    mensaje.textContent = "La cédula debe tener 10 números.";
     return;
   }
 
@@ -114,6 +121,7 @@ enviarBtn.addEventListener("click", async () => {
 
   const data = {
     nombreCompleto: nombre,
+    cedula: cedula,
     celular: celular,
     instagram: instagram,
     tipoSesion: selectedSession.tipoSesion,
@@ -153,6 +161,7 @@ enviarBtn.addEventListener("click", async () => {
       `Reserva PHOTO LAB\n\n` +
       `Código: ${result.codigo}\n` +
       `Nombre: ${nombre}\n` +
+      `Cédula: ${cedula}\n` +
       `Sesión: ${selectedSession.tipoSesion}\n` +
       `Fecha: ${fecha}\n` +
       `Horario: ${result.bloqueHorario}\n` +
